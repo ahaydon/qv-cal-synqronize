@@ -39,6 +39,10 @@ namespace CALsynqronize
 
             // find group
             DirectorySearcher search = new DirectorySearcher();
+
+            search.SizeLimit = 0;
+            search.PageSize = 1000;
+            
             search.Filter = String.Format("(&(objectCategory=group)(cn={0}))", strGroupName);
             search.PropertiesToLoad.Add("distinguishedName");
             SearchResult sru = null;
@@ -76,6 +80,9 @@ namespace CALsynqronize
             // find all users in this group
             DirectorySearcher ds = new DirectorySearcher();
             ds.Filter = String.Format("(&(memberOf={0})(objectClass=person))", strGroupDN);
+
+            ds.SizeLimit = 0;
+            ds.PageSize = 1000;
 
             ds.PropertiesToLoad.Add("distinguishedName");
             ds.PropertiesToLoad.Add("givenname");
@@ -122,6 +129,9 @@ namespace CALsynqronize
             // find all nested groups in this group
             DirectorySearcher ds = new DirectorySearcher();
             ds.Filter = String.Format("(&(memberOf={0})(objectClass=group))", strGroupDN);
+
+            ds.SizeLimit = 0;
+            ds.PageSize = 1000;
 
             ds.PropertiesToLoad.Add("distinguishedName");
 

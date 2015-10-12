@@ -29,6 +29,7 @@ namespace CALsynqronize
             bool help = false;
             bool version = false;
             bool remove = false;
+            bool test = false;
 
             var p = new OptionSet()
                             {
@@ -36,6 +37,7 @@ namespace CALsynqronize
                                 {"p|prefix:", "{Domain} to add before sAMAccountName", v => parameters.Prefix = v},
                                 {"s|server:", "{Name} of QlikView Server to synqronize", v => parameters.QlikViewServer = v},
                                 {"r|remove", "Remove ALL Named CAL's from QlikView Server", v => remove = v != null},
+                                {"t|test", "Test mode, don't syncronize anything", v => test = v != null},
                                 {"V|version", "Show version information", v => version = v != null},
                                 {"?|h|help", "Show usage information", v => help = v != null}
                             };
@@ -50,7 +52,7 @@ namespace CALsynqronize
 
             if (version)
             {
-                Console.WriteLine("CALsynqronize version 20150316\n");
+                Console.WriteLine("CALsynqronize version 20151012\n");
                 Console.WriteLine("This program comes with ABSOLUTELY NO WARRANTY.");
                 Console.WriteLine("This is free software, and you are welcome to redistribute it");
                 Console.WriteLine("under certain conditions.");
@@ -91,6 +93,7 @@ namespace CALsynqronize
                 if(usersFromActiveDirectory.Count > 0)
                 {
                     // read cal information from qlikview server
+
                     var namedCalsOnServer = GetUsersFromServer();
 
                     // get list of users who has a license but is not present in the AD group anymore
@@ -102,7 +105,10 @@ namespace CALsynqronize
 
                     Console.WriteLine("Number of CAL's to remove: " + removeUsers.Count + ", number of CAL's to add: " + allocateUsers.Count);
 
-                    SynqronizeCALs(removeUsers, allocateUsers);
+                    if (!test)
+                        SynqronizeCALs(removeUsers, allocateUsers);
+                    else
+                        Console.WriteLine("TEST MODE - NOT SYNCHRONIZING");
                 }
                 else
                 {
@@ -144,6 +150,9 @@ namespace CALsynqronize
                 l.AddRange(u.Cast<string>().ToList());
                 
                 Console.WriteLine(" (Found " + (l.Count() - previousCount) + ")");
+
+                LogHelper.Log(LogLevel.Debug, "FOUND NEW: " + l.Count() + " users", LogProperties);
+                LogHelper.Log(LogLevel.Debug, "EXISTING: " + previousCount + " users", LogProperties);
             }
 
             if (!String.IsNullOrEmpty(parameters.Prefix))
