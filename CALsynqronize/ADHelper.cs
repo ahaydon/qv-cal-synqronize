@@ -85,13 +85,12 @@ namespace CALsynqronize
             ds.PageSize = 1000;
 
             ds.PropertiesToLoad.Add("distinguishedName");
-            ds.PropertiesToLoad.Add("givenname");
             ds.PropertiesToLoad.Add("samaccountname");
-            ds.PropertiesToLoad.Add("sn");
 
             foreach (SearchResult sr in ds.FindAll())
             {
-                groupMembers.Add(sr.Properties["samaccountname"][0].ToString().ToUpper());
+                if (sr.Properties.Count>0)
+                    groupMembers.Add(sr.Properties["samaccountname"][0].ToString().ToUpper());
             }
 
             // get nested groups

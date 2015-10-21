@@ -52,7 +52,7 @@ namespace CALsynqronize
 
             if (version)
             {
-                Console.WriteLine("CALsynqronize version 20151012\n");
+                Console.WriteLine("CALsynqronize version 20151021\n");
                 Console.WriteLine("This program comes with ABSOLUTELY NO WARRANTY.");
                 Console.WriteLine("This is free software, and you are welcome to redistribute it");
                 Console.WriteLine("under certain conditions.");
