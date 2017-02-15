@@ -243,6 +243,7 @@ namespace CALsynqronize
                 {
                     LogHelper.Log(LogLevel.Debug, "REMOVE: " + c.UserName, LogProperties);
                     config.NamedCALs.AssignedCALs.Remove(c);
+                    config.NamedCALs.RemovedAssignedCALs.Add(c);
                 }
 
                 // Add named CALs
@@ -296,6 +297,7 @@ namespace CALsynqronize
             {
                 LogHelper.Log(LogLevel.Debug, "REMOVE: " + c.UserName, LogProperties);
                 config.NamedCALs.AssignedCALs.Remove(c);
+                config.NamedCALs.RemovedAssignedCALs.Add(c);
             }
 
             // save changes
